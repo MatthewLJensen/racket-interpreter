@@ -1,0 +1,15 @@
+Grammar	    ::= def-expr*
+
+def-exprdef ::= def | expr
+
+def         ::= "("define "("variable variable+")" expr")"
+ 	 	 	 	 
+expr        ::= variable
+              | value
+ 	      |	"("primitive expr+")"
+ 	      |	"("variable expr+")"
+ 	      |	"("cond ("["expr expr"]")+")"
+ 	      |	"("cond ("["else expr"]")+")"
+
+
+
