@@ -1,7 +1,6 @@
 #lang plai-typed
 
 
-
 ; types
 #;(define-type ArithC
   [numC (n : number)]
