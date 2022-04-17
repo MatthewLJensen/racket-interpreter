@@ -33,8 +33,8 @@ function runFile(path: string) {
     const buffer = fs.readFileSync(path).toString('utf-8')
 
     run(buffer, false)
-    if (getHadError()) process.exit(65);
-    if (hadRuntimeError) process.exit(70);
+    // if (getHadError()) process.exit(65);
+    // if (hadRuntimeError) process.exit(70);
     process.exit()
 }
 
