@@ -4,26 +4,16 @@ import * as readline from 'readline';
 import { Token } from './token';
 import { Parser } from "./parser"
 import { Interpreter } from "./interpreter"
-import { hadRuntimeError, setHadError, getHadError } from './errorHandling';
 
 const interpreter: Interpreter = new Interpreter()
 
 const args = process.argv.slice(2)
-let rpn = false
-let ast = false
-
-// check for --rpn flag. if it is present, print the RPN version of the expression.
-if (args.length > 0 && args[0] === '--rpn') {
-    rpn = true
-    args.splice(0, 1)
-}
 
 if (args.length > 1) {
-    console.log("Usage: tlox [script]")
+    console.log("Usage: tRack [script]")
     process.exit(64)
 } else if (args.length == 1) {
     runFile(args[0])
-
 } else {
     runPrompt()
 }
@@ -56,7 +46,6 @@ function runPrompt() {
                     break
                 default:
                     run(line, true)
-                    setHadError(false)
             }
             prompt()
         })
@@ -66,29 +55,10 @@ function runPrompt() {
 
 function run(source: string, fromRepl: boolean = false) {
     const scanner: Scanner = new Scanner(source)
-    const tokens: Token[] = scanner.scanTokens()
+    const tokens: string[] = scanner.tokenize()
     const parser: Parser = new Parser(tokens)
-    const syntax: Object = fromRepl ? parser.parseRepl() : parser.parse()
-
-
-
-    if (syntax instanceof Array) {
-        
-        resolver.resolveArray(syntax);
-        if (getHadError()) return
-        interpreter.interpret(syntax);
-    } else if (syntax instanceof Expr) {
-        if (rpn) {
-            
-            console.log(new RpnPrinter().rpnPrintExpr(syntax))
-        } else if (ast) {
-            console.log(new AstPrinter().printExpr(syntax))
-        } else {
-            resolver.resolveExpr(syntax);
-            if (getHadError()) return
-            interpreter.interpretExpression(syntax)
-        }
-    }
+    const program: any = parser.parse()
+    console.log(program)
 }
 
 
