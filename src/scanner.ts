@@ -2,7 +2,8 @@ export class Scanner {
     private source: string
 
     constructor(source: string) {
-        this.source = source
+        // remove line breaks and tabs
+        this.source = source.replace(/[\n\r\t]/g, "")
     }
 
     tokenize() {
