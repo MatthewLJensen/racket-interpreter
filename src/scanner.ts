@@ -7,6 +7,7 @@ export class Scanner {
 
     tokenize() {
         // converts program into a list of tokens
-        return this.source.replace("(", " ( ").replace(")", " ) ").split(' ')
+        // add spaces to parentheses, split on spaces, remove empty strings because they evaluate to false in the filter
+        return this.source.replaceAll("(", " ( ").replaceAll(")", " ) ").split(" ").filter(Boolean)
     }
 }
