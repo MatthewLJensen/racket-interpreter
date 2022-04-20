@@ -1,0 +1,6 @@
+(print 1.1)
+(define (factorial base)
+    (cond ((equal? base 1) 1)
+          (else (* base (factorial (- base 1))))))
+(print (factorial 100))
+(print (* 2.5 (- 5.76 3.14)))
