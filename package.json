@@ -2,11 +2,11 @@
   "scripts": {
     "dev": "nodemon --config nodemon.json tRack.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk ./src/tRack.ts",
-    "lox": "ts-node ./src/lox.ts"
+    "track": "ts-node ./src/tRack.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.7.0"
   },
   "dependencies": {
     "colors": "^1.4.0",

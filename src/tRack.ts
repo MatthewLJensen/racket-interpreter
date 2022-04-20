@@ -58,6 +58,8 @@ function run(source: string, fromRepl: boolean = false) {
     const tokens: string[] = scanner.tokenize()
     const parser: Parser = new Parser(tokens)
     const program: any = parser.parse()
+    console.dir(program, { depth: null, maxArrayLength: null })
+    
     const result = interpreter.evaluateProgram(program) // this prints the result by default
 }
 

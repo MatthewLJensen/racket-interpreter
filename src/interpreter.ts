@@ -1,27 +1,49 @@
 import { Environment } from "./environment";
+import { Method } from "./method";
+import { Num } from "./num";
 export class Interpreter {
 
-    private environment: Environment = new Environment();
+    private globals: Environment
 
     constructor() {
+        // let globals: any[][] = [
+        //     ["cond", (...args: any[]) => { }],
+        //     ["print", (...args: any[]) => {
+        //         console.log(args.map(arg => this.evaluate(arg)).join(" "));
+        //     }],
+        //     ["define", (...args: any[]) => { }],
+        //     ["+", ((x: any, y: any) => x + y)],
+        //     ["-", ((x: any, y: any) => x - y)],
+        //     ["*", ((x: any, y: any) => x * y)],
+        //     ["/", ((x: any, y: any) => x / y)],
+        //     ["pi", Math.PI]
+        // ]
+
+        this.globals = new Environment(null as any, [], [])
+        this.globals.define("cond", (...args: any[]) => {})
+        this.globals.define("define", (...args: any[]) => {})
+        this.globals.define("+", ((x: any, y: any) => x + y))
+        this.globals.define("-", ((x: any, y: any) => x - y))
+        this.globals.define("*", ((x: any, y: any) => x * y))
+        this.globals.define("/", ((x: any, y: any) => x / y))
+        this.globals.define("print", ((x: any) => console.log(x)))
+        this.globals.define("pi", Math.PI)
     }
     evaluateProgram(program: any[][]): any {
-        // console.log("evaluateProgram:")
-        // console.log(program)
         for (let expression of program) {
             this.evaluate(expression)
-            //let result = this.evaluate(expression)
-            // if (result) {
-            //     console.log(result)
-            // }
         }
     }
-    evaluate(expressions: any[] | string | number): any {
+    evaluate(expressions: any[] | string | number, environment: Environment=this.globals): any {
+        // console.log("expressions")
+        // console.log(expressions)
+        // console.log("environment")
+        // console.log(environment)
         // console.log("evaluate:")
         // console.log(expressions)
         if (typeof (expressions) === "string") {
             // console.log(this.environment.get(expressions))
-            return this.environment.get(expressions) // this should always return a number or a function
+            return environment.get(expressions) // this should always return a number or a function
         }
         else if (typeof (expressions) === "number") { // constant number
             return expressions
@@ -30,22 +52,30 @@ export class Interpreter {
             console.log("not implemented")
         }
         else if (expressions[0] === "define") { // Define a variable or method
-            this.environment.define(expressions[1], this.evaluate(expressions[2]))
+            
+            if (typeof(expressions[1]) === "object") { // method
+                let params = expressions[1].slice(1) // slice(1) grabs the args while ignoring the name of the method
+                let body = expressions[2]
+                let method = new Method(params, body, environment)
+                environment.define(expressions[1][0], method)
+            }
+            else{ // variable
+                environment.define(expressions[1], this.evaluate(expressions[2], environment))
+            }
+            
         }
         else {
-            let procedure = this.evaluate(expressions[0])
+            let procedure = this.evaluate(expressions[0], environment)
             let args = []
             for (let arg of expressions.slice(1)) {
-                args.push(this.evaluate(arg))
+                args.push(this.evaluate(arg, environment))
             }
-            // console.log("procedure:")
-            // console.log(procedure)
-            // console.log("args: " + args)
-            // console.log("result: ")
-            // console.log(procedure(...args))
-            return procedure(...args)
+            if (procedure instanceof Method) {
+                return procedure.call(this, args)
+            }else {
+                return procedure(...args)
+            }
         }
-
     }
 }
 
