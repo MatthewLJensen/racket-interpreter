@@ -2,19 +2,19 @@ Grammar	    ::= def-expr*
 
 def-expr 	::= def | expr
 
-def         ::= "(" "define" "("variable variable+")" expr")"
+def         ::= "(" "define" "("variable variable*")" expr")"
             |	"(" "define" variable expr")"
 
 
 expr        ::=	variable
             |	value
- 	      	|	"("primitive expr+")"
- 	      	|	"("variable expr+")"
+ 	      	|	"("variable expr*")"
  	      	|	"(" "cond" ("["expr expr"]")+ ("[" "else" expr "]")? ")"
 
-primitive   ::= "+" | "-" | "*" | "/"
+/* primitive   ::= "+" | "-" | "*" | "/"*/
+/* Convert the above to built in functions. Document it somewhere else. readme? */
 
 
 variable    ::= [^'"()\n ]+
 
-value       ::= [0-9]+('.'[0-9]+)? 
+value       ::= [0-9]+('.'[0-9]+)?

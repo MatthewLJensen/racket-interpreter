@@ -19,14 +19,12 @@ export class Interpreter {
         // ]
 
         this.globals = new Environment(null as any, [], [])
-        this.globals.define("cond", (...args: any[]) => {})
-        this.globals.define("equal?", (x: any, y: any) => x === y)
-        this.globals.define("define", (...args: any[]) => {})
-        this.globals.define("+", ((x: any, y: any) => x + y))
-        this.globals.define("-", ((x: any, y: any) => x - y))
-        this.globals.define("*", ((x: any, y: any) => x * y))
-        this.globals.define("/", ((x: any, y: any) => x / y))
-        this.globals.define("print", ((x: any) => console.log(x)))
+        this.globals.define("equal?", (x: number, y: number) => x === y)
+        this.globals.define("+", ((x: number, y: number) => x + y))
+        this.globals.define("-", ((x: number, y: number) => x - y))
+        this.globals.define("*", ((x: number, y: number) => x * y))
+        this.globals.define("/", ((x: number, y: number) => x / y))
+        this.globals.define("print", ((x: number) => console.log(x)))
         this.globals.define("pi", Math.PI)
     }
     evaluateProgram(program: any[][]): any {
