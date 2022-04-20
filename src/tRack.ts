@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import { Scanner } from './scanner';
 import * as readline from 'readline';
-import { Token } from './token';
 import { Parser } from "./parser"
 import { Interpreter } from "./interpreter"
 
@@ -58,9 +57,8 @@ function run(source: string, fromRepl: boolean = false) {
     const tokens: string[] = scanner.tokenize()
     const parser: Parser = new Parser(tokens)
     const program: any = parser.parse()
-    console.dir(program, { depth: null, maxArrayLength: null })
-    
-    const result = interpreter.evaluateProgram(program) // this prints the result by default
+    // console.dir(program, { depth: null, maxArrayLength: null })
+    const result = interpreter.evaluateProgram(program)
 }
 
 

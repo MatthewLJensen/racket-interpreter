@@ -1,6 +1,5 @@
 import { Environment } from "./environment";
 import { Method } from "./method";
-import { Num } from "./num";
 export class Interpreter {
 
     private globals: Environment
@@ -21,6 +20,7 @@ export class Interpreter {
 
         this.globals = new Environment(null as any, [], [])
         this.globals.define("cond", (...args: any[]) => {})
+        this.globals.define("equal?", (x: any, y: any) => x === y)
         this.globals.define("define", (...args: any[]) => {})
         this.globals.define("+", ((x: any, y: any) => x + y))
         this.globals.define("-", ((x: any, y: any) => x - y))
@@ -30,6 +30,7 @@ export class Interpreter {
         this.globals.define("pi", Math.PI)
     }
     evaluateProgram(program: any[][]): any {
+        // console.dir(program, { depth: null, maxArrayLength: null })
         for (let expression of program) {
             this.evaluate(expression)
         }
@@ -49,7 +50,14 @@ export class Interpreter {
             return expressions
         }
         else if (expressions[0] === "cond") { // conditional
-            console.log("not implemented")
+            for (let conditional of expressions.slice(1)) {
+                if (conditional[0] === "else") {
+                    return this.evaluate(conditional[1], environment)
+                }
+                if (isTruthy(this.evaluate(conditional[0], environment))) {
+                    return this.evaluate(conditional[1], environment)
+                }
+            }
         }
         else if (expressions[0] === "define") { // Define a variable or method
             
@@ -79,11 +87,11 @@ export class Interpreter {
     }
 }
 
-// const isTruthy = (object: Object): boolean => {
-//     if (object == null) return false;
-//     if (typeof object == "boolean") return object as boolean;
-//     return true;
-// }
+const isTruthy = (object: Object): boolean => {
+    if (object == null) return false;
+    if (typeof object == "boolean") return object as boolean;
+    return true;
+}
 
 // const isEqual = (a: Object, b: Object): boolean => {
 //     if (a == null && b == null) return true;
