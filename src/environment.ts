@@ -1,7 +1,7 @@
 //Parser is somewhat translated from http://norvig.com/lispy.html
 import { Function } from "./function"
 export class Environment {
-    values: Map<string, Object> = new Map<string, Object>()
+    values: Map<string, Object> = new Map<string, (Function | number)>()
     private enclosing: Environment | null
 
     constructor(enclosing: Environment | null, params: any[] = [], args: any[] = []) {
@@ -13,7 +13,7 @@ export class Environment {
     }
     private zip = (a: any, b: any) => a.map((k: any, i: any) => [k, b[i]]);
 
-    get(name: string): number | Function {
+    get(name: string): number {
         if (this.values.has(name)) {
             return this.values.get(name) as any
         }
