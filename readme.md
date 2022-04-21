@@ -40,6 +40,8 @@ value       ::= [0-9]+('.'[0-9]+)?
 | pi          | Equal to the value π | TypeScript's Math.PI  | 
 
 
+## Truthiness
+How does one implement conditions without bool types? Anything that is not 0 is truthy, 0 is the only falsy value.
 
 ## Testing
 
