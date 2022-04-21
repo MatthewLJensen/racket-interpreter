@@ -1,3 +1,5 @@
+import { ParseError } from "./errors"
+
 //Parser is somewhat translated from http://norvig.com/lispy.html
 export class Parser {
     private tokens: string[]
@@ -6,33 +8,31 @@ export class Parser {
         this.tokens = ['(', ...tokens, ')']
     }
 
-    parse(tokens_to_parse: string[] = this.tokens): any {
+    // returns type of any because the depth of the returned syntax tree is unknown. If its recursion is at the bottom, it will return a string or a number
+    parse(tokens_to_parse: string[] = this.tokens): any[] | string | number {
         if (tokens_to_parse.length === 0) {
-            console.log("ERROR: unexpected end of program")
-
-            process.exit(1)
+            throw new ParseError("Unexpected end of input")
         }
 
-        let token: string = tokens_to_parse.shift() as any
-        let parsedTokens: any[] = []
+
+        let token: string = tokens_to_parse.shift()! //the ! postfix operator is used to force the compiler to treat the value as non-nullable
 
         if (token === "(") {
             let inner_tokens = []
             while (tokens_to_parse[0] !== ")")
                 inner_tokens.push(this.parse(tokens_to_parse))
-            tokens_to_parse.shift() // remove the ")"
+            tokens_to_parse.shift() // this removes the trailing ")"
             return inner_tokens
         }
         else if (token === ")") {
-            console.log("ERROR: unexpected )")
-            return null
+            throw new ParseError("Error: unexpected ')'")
         }
         else
             return this.identifier(token)
     }
 
-    identifier(token: string | any) {
-        if (isNaN(token)) {
+    identifier(token: string): string | number {
+        if (isNaN(Number(token))) {
             return token
         } else {
             return parseFloat(token)

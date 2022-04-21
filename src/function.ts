@@ -1,7 +1,7 @@
 import { Environment } from "./environment";
 import { Interpreter } from "./interpreter";
 
-export class Method{
+export class Function{
     private params: any
     private body: any
     private environment: Environment
