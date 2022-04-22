@@ -11,7 +11,7 @@ export class Function{
         this.body = body
         this.environment = environment
     }
-    public call(interpreter: Interpreter, args: (string | number | Function)[]): number {
+    public call(interpreter: Interpreter, args: (string | number | Function | (() => number))[]): number {
         let environment = new Environment(this.environment, this.params, args)
 
         return interpreter.evaluate(this.body, environment) as number

@@ -7,7 +7,7 @@ export class Interpreter {
 
     constructor() {
         this.globals = new Environment(null, [], []) // the global environment doesn't have an enclosing environment, so its first parameter is null
-        this.globals.define("equal?", (x: number, y: number) => x === y)
+        this.globals.define("equal?", (x: number, y: number) => isTruthy(x === y))
         this.globals.define("+", ((x: number, y: number) => x + y))
         this.globals.define("-", ((x: number, y: number) => x - y))
         this.globals.define("*", ((x: number, y: number) => x * y))
@@ -20,7 +20,7 @@ export class Interpreter {
             this.evaluate(expression)
         }
     }
-    evaluate(expressions: (string | number | (string | number)[])[] | string | number, environment: Environment = this.globals): number | Function {
+    evaluate(expressions: (string | number | (string | number)[])[] | string | number, environment: Environment = this.globals): number | Function | (() => number) {
 
         if (typeof (expressions) === "string")
             return environment.get(expressions) // this should always return a number or a function
@@ -32,10 +32,12 @@ export class Interpreter {
                 if (typeof (conditional) === "object") {
                     if (conditional[0] === "else") // if an else block is found, evaluate it and return the result
                         return this.evaluate(conditional[1], environment)
-                    if (isTruthy(this.evaluate(conditional[0], environment))) // otherwise evaluate the conditional and return the result if the conditional is true
+                    if (isTruthy(this.evaluate(conditional[0], environment) as number)) // otherwise evaluate the conditional and return the result if the conditional is true
                         return this.evaluate(conditional[1], environment)
+                }else{
+                    throw new RuntimeError("Conditional expression must be an array")
                 }
-                throw new RuntimeError("Conditional expression must be an array")
+                
             }
             throw new RuntimeError("No conditional matched")
 
@@ -61,20 +63,28 @@ export class Interpreter {
 
         }
         else {
-            let procedure: Function = this.evaluate(expressions[0], environment) as Function
-            let args: (string | number | Function)[] = []
+            let procedure = this.evaluate(expressions[0], environment)
+            let args: (string | number | Function | (() => number))[] = []
             for (let arg of expressions.slice(1)) {
                 args.push(this.evaluate(arg, environment))
             }
             if (procedure instanceof Function)
                 return procedure.call(this, args)
-            else
-                return procedure(...args)
+            else{
+                return (procedure as any)(...args)
+            }
+                
         }
     }
 }
 
-const isTruthy = (value: number): number => {
-    if (value === 0) return 0
+const isTruthy = (value: number | boolean): number => {
+    if (value === 0 || value === false){
+        return 0
+    }
     return 1
 }
+
+
+
+
