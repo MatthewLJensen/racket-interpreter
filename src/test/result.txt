@@ -1,1 +1,1 @@
-Usage: tRack [script]
+Error: Variable name must be a string

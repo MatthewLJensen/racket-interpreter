@@ -99,7 +99,7 @@ const main = async () => {
         .map(dirent => dirent.name);
 
     for (let file of fileNames) {
-        let runFilePath = 'C:\Users\Matthew\Documents\Local Programming\racket-interpreter\src\scripts' + file
+        let runFilePath = '../scripts/' + file
         let testFilePath = '../scripts/expected/' + file.replace('.track', '')
         console.log(`Running ${file}`)
         await runFileTests(runFilePath, testFilePath).then((results) => {
