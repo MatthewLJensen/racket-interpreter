@@ -1,3 +1,0 @@
-(define radius 10)
-(define (circleArea r) (* pi (* r r)))
-(print (circleArea radius))

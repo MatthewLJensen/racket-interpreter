@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "nodemon --config nodemon.json tRack.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk ./src/tRack.ts",
-    "track": "ts-node ./src/tRack.ts"
+    "track": "ts-node ./src/tRack.ts",
+    "test": "node ./src/test/test_tRack.mjs"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",

@@ -1,0 +1,2 @@
+(define (test" r)(* r r))
+(print (test" 14))

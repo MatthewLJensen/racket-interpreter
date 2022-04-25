@@ -13,7 +13,12 @@ export class Function{
     }
     public call(interpreter: Interpreter, args: (string | number | Function | (() => number))[]): number {
         let environment = new Environment(this.environment, this.params, args)
-
-        return interpreter.evaluate(this.body, environment) as number
+        if (typeof this.body[0] === "string") {
+            return interpreter.evaluate(this.body, environment) as number
+        }
+        for (let expression of this.body) {
+            interpreter.evaluate(expression, environment)
+        }
+        return 1
     }
 }

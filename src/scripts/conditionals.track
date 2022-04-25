@@ -1,6 +1,11 @@
 (define base 3)
 (cond 
     ((equal? base 4) (print 1))
-    ((equal? 5 base) (print 2))
-    (else (print 3)))
+    ((equal? 3 base) (print 5))
+    (else (print 3))
+)
+(cond 
+    ((equal? base 4) (print 1))
+    ((equal? 5 base) (print 5))
+    (else (print 3))
 )

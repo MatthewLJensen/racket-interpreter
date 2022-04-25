@@ -1,0 +1,6 @@
+(define test 15)
+(define test2 14)
+(cond 
+    ((equal? 15 test2) (print 15))
+    ((equal? 16 test) (print test2))
+)

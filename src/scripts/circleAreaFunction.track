@@ -1,0 +1,4 @@
+(define radius 10)
+(define (multiply x y) (* x y))
+(define (circleArea r) (* pi (multiply r r)))
+(print (circleArea radius))

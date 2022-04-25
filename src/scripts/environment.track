@@ -1,0 +1,21 @@
+(define test 15)
+(define test2 25)
+(define (env1) 
+    (
+        (print test)
+        (define test 2)
+        (print test)
+        (define (env2) 
+            (
+                (print test)
+                (define test 3)
+                (print test)
+            )
+        )
+        (env2)
+        (print test2)
+        (print test)
+    )
+)
+
+(env1)
