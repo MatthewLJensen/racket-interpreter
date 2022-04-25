@@ -4,23 +4,23 @@ tRack is a monotype language, dealing only with values as numbers.
 ## Grammar
 
 ```
-Grammar	    ::= def-expr*
+Grammar	::=         def-expr*
 
-def-expr 	::= define | expr
+def-expr 	::=         define | expr
 
-define         ::= "(" "define" "("variable variable*")" expr")"
-            |	"(" "define" variable expr")"
+define      ::=         "(" "define" "("variable variable*")" expr")"
+            |           "(" "define" variable expr")"
 
 
 expr        ::=	variable
             |	value
- 	      	|	"("variable expr*")"
- 	      	|	"(" "cond" ("["expr expr"]")+ ("[" "else" expr "]")? ")"
+ 	|	"("variable expr*")"
+ 	|	"(" "cond" ("["expr expr"]")+ ("[" "else" expr "]")? ")"
 
 
-variable    ::= [^'"()\n ]+
+variable    ::=         [^'"()\n ]+
 
-value       ::= [0-9]+('.'[0-9]+)?
+value       ::=         [0-9]+('.'[0-9]+)?
 ```
 
 ## Built-in Functions/Values
