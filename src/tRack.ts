@@ -56,7 +56,7 @@ function run(source: string, fromRepl: boolean = false) {
     const parser: Parser = new Parser(tokens)
     const program: any = parser.parse()
     // console.dir(program, { depth: null, maxArrayLength: null })
-    const result = interpreter.evaluateProgram(program)
+    const result = interpreter.evaluateProgram(program, fromRepl)
 }
 
 

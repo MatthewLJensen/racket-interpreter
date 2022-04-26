@@ -15,12 +15,14 @@ export class Interpreter {
         this.globals.define("print", ((x: number) => console.log(x)))
         this.globals.define("pi", Math.PI)
     }
-    evaluateProgram(program: (string | number | [])[]) {
+    evaluateProgram(program: (string | number | [])[], repl: boolean = false) {
         for (let expression of program) {
-            this.evaluate(expression)
+            let result = this.evaluate(expression)
+            if (repl && result)
+                console.log(result)
         }
     }
-    evaluate(expressions: (string | number | (string | number)[])[] | string | number, environment: Environment = this.globals): number | Function | (() => number) {
+    evaluate(expressions: (string | number | (string | number)[])[] | string | number, environment: Environment = this.globals): number | Function | (() => number) | undefined {
         try {
             if (typeof (expressions) === "string")
                 return environment.get(expressions) // this should always return a number or a function
@@ -56,14 +58,16 @@ export class Interpreter {
                         environment.define(expressions[1][0], method)
                     else
                         throw new RuntimeError("Error: Function name must be a string")
-                    return 1
                 }
                 else { // defines a variable
-                    if (typeof (expressions[1]) === "string" && !this.variableNameRegExp.test(expressions[1]))
-                        environment.define(expressions[1], this.evaluate(expressions[2], environment))
-                    else
+                    if (typeof (expressions[1]) === "string" && !this.variableNameRegExp.test(expressions[1])){
+                        let result = this.evaluate(expressions[2], environment)
+                        if (result !== undefined)
+                            environment.define(expressions[1], result)
+                        else
+                            throw new RuntimeError("Error: Cannot define a variable with an undefined value. Perhaps you are treating define as an expression.")
+                    }else
                         throw new RuntimeError("Error: Variable name must be a string")
-                    return 1
                 }
 
             }
@@ -71,7 +75,11 @@ export class Interpreter {
                 let procedure = this.evaluate(expressions[0], environment)
                 let args: (string | number | Function | (() => number))[] = []
                 for (let arg of expressions.slice(1)) {
-                    args.push(this.evaluate(arg, environment))
+                    let evaledArg = this.evaluate(arg, environment)
+                    if (evaledArg !== undefined)
+                        args.push(evaledArg)
+                    else
+                        throw new RuntimeError("Error: Cannot pass define as an argument")
                 }
                 if (procedure instanceof Function)
                     return procedure.call(this, args)
@@ -90,6 +98,7 @@ export class Interpreter {
 }
 
 const isTruthy = (value: number | boolean): number => {
+    if (typeof (value) === "undefined") throw new RuntimeError("Error: Cannot evaluate undefined. Perhaps you are using define as something that will be evaluated to a truthy or falsy value")
     if (value === 0 || value === false) {
         return 0
     }
