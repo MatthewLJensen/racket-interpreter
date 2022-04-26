@@ -15,7 +15,7 @@ define      ::=         "(" "define" "("variable variable*")" expr")"
 expr        ::=	variable
             |	value
  	|	"("variable expr*")"
- 	|	"(" "cond" ("["expr expr"]")+ ("[" "else" expr "]")? ")"
+ 	|	"(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
 
 
 variable    ::=         [^'"()\n ]+
