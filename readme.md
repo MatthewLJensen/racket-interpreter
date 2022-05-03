@@ -244,10 +244,11 @@ If there are too many closing parentheses, the parser will throw an error. This 
 
 2\. Runtime Errors
 
-There are currently 4 runtime errors.
+The following are runtime errors:
 
 1. Invalid conditional expression
-This error is thrown when a conditional expression is not an array. This is likely because the programmer did not use the correct syntax. This should probably be a parse error, but it isn't.
+    
+    This error is thrown when a conditional expression is not an array. This is likely because the programmer did not use the correct syntax. This should probably be a parse error, but it isn't.
 
     _conditional_not_formatted_correctly.track_
 
@@ -308,6 +309,37 @@ This error is thrown when a conditional expression is not an array. This is like
     ```
     Error: Variable name must be a string
     ```
+
+5. Conditionals must have exactly two elements.
+    Each conditional must have a condition and an expression to be evaluated if the condition evaluates to true.
+
+    _runtime_error_conditional_2_elements.track_
+    
+    ```
+    (define test 15)
+    (define test2 14)
+    (cond 
+        ((equal? 15 test2))
+    )
+    ```
+    Expected output (_expected/runtime_error_conditional_2_elements_):
+    ```
+    Error: Invalid conditional expression. Conditionals must have exactly two elements.
+    ```
+
+6. Conditional expression must be a list.
+    Each conditional expression must have been parsed into a list. This basically means that the expression must be wrapped in parentheses.
+
+    _runtime_error_conditional_must_be_list.track_
+    
+    ```
+    (cond 5 (print test))
+    ```
+    Expected output (_expected/runtime_error_conditional_must_be_list_):
+    ```
+    Error: Conditional expression must be a list. Is your conditional expression surrounded by parentheses?
+    ```
+    
 ## Sample Scripts
     
 ### Factorial of 100

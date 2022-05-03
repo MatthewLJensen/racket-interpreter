@@ -37,12 +37,11 @@ export class Interpreter {
                         if (conditional.length === 2) {
                             if (isTruthy(this.evaluate(conditional[0], environment) as number)) // otherwise check syntax of conditional, evaluate the conditional and return the result if the conditional is true
                                 return this.evaluate(conditional[1], environment)
-                        }
-                        else {
+                        } else {
                             throw new RuntimeError("Error: Invalid conditional expression. Conditionals must have exactly two elements.")
                         }
                     } else {
-                        throw new RuntimeError("Error: Conditional expression be a list")
+                        throw new RuntimeError("Error: Conditional expression must be a list. Is your conditional expression surrounded by parentheses?")
                     }
 
                 }
