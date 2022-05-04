@@ -36,6 +36,7 @@ The REPL behaves like one would expect. It can be reached by running tRack witho
 | *           | Binary operator. Multiplies two numbers. | (*  3.5  7)  | 24.5 |
 | /           | Binary operator. Divides two numbers. | (/  3.5  .5)  | 7.0 |
 | %           | Binary operator. Divides two numbers and returns the remainder. | (%  3  2)  | 1 |
+| read        | Reads a line of text from the terminal. | read | *note:* This feature does not seem to work perfectly in the REPL |
 | expt        | Binary operator. Raises the first number to the power of the second. | (expt  3  2)  | 9 |    
 | equal?      | Binary operator. Returns 1 if two values are equal, 0 if not. | (equal?  3.5  3.5)  | 1 |
 | print       | Prints a value to the console. | (print (- 10 3))  |  7 |
@@ -137,7 +138,7 @@ Expected Output (_expected/conditionals_):
 ```
 
 ### Built-in Functions
-All of the built in functions are tested in the below test
+All of the built in functions, except for read, are tested in the below test. 
 
 _built_in_functions.track_
 ```
@@ -178,6 +179,7 @@ _expected/built_in_functions_
 32
 ```
 
+In order to test read, run one of the scripts in the _scripts/requires_input_ directory. It will prompt you to enter a value to determine the iterations/value to compute.
 ### Built-in Values
 There is currently only 1 built in value, pi. It is tested within both the _circleAreaFunction.track_ and _circleArea.track_ tests.
 
