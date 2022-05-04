@@ -31,8 +31,11 @@ value       ::=         [0-9]+('.'[0-9]+)?
 | -           | Binary operator. Subtracts two numbers. | (-  3.5  7)  | -4.5 |
 | *           | Binary operator. Multiplies two numbers. | (*  3.5  7)  | 24.5 |
 | /           | Binary operator. Divides two numbers. | (/  3.5  .5)  | 7.0 |
+| %           | Binary operator. Divides two numbers and returns the remainder. | (%  3  2)  | 1 |
+| expt        | Binary operator. Raises the first number to the power of the second. | (expt  3  2)  | 9 |    
 | equal?      | Binary operator. Returns 1 if two values are equal, 0 if not. | (equal?  3.5  3.5)  | 1 |
 | print       | Prints a value to the console. | (print (- 10 3))  |  7 |
+
 
 ### Values
 | Variable    | Description | Equivalent value     | 
@@ -351,3 +354,16 @@ The following are runtime errors:
 ```
 Returns:
 ```9.33262154439441e+157```
+
+### Estimate Pi
+```
+(define (calc_pi n)
+    (cond 
+        ((equal? n 1) 4)
+        (else (+ (* (* 4 (expt (- 0 1) (+ n 1))) (/ 1 (- (* 2 n) 1))) (calc_pi (- n 1))))
+    )
+)
+(print (calc_pi 400))
+```
+Returns:
+```3.1390926574960143```

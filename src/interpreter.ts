@@ -12,6 +12,8 @@ export class Interpreter {
         this.globals.define("-", ((x: number, y: number) => x - y))
         this.globals.define("*", ((x: number, y: number) => x * y))
         this.globals.define("/", ((x: number, y: number) => x / y))
+        this.globals.define("%", ((x: number, y: number) => x % y))
+        this.globals.define("expt", ((x: number, y: number) => Math.pow(x, y)))
         this.globals.define("print", ((x: number) => console.log(x)))
         this.globals.define("pi", Math.PI)
     }
@@ -22,6 +24,7 @@ export class Interpreter {
                 console.log(result)
         }
     }
+
     evaluate(expressions: (string | number | (string | number)[])[] | string | number, environment: Environment = this.globals): number | Function | (() => number) | undefined {
         try {
             if (typeof (expressions) === "string")
@@ -83,8 +86,13 @@ export class Interpreter {
                 if (procedure instanceof Function)
                     return procedure.call(this, args)
                 else {
-
-                    return (procedure as any)(...args)
+                    try {
+                        return (procedure as any)(...args)
+                    }catch (e) {
+                        console.log(expressions)
+                        throw new RuntimeError("Error: Cannot call non-function")
+                    }
+                    
                     // console.log("test2")
                 }
 
