@@ -1,9 +1,14 @@
 import { Environment } from "./environment";
 import { RuntimeError } from "./errors";
 import { Function } from "./function";
+var readlineSync = require('readline-sync');
 export class Interpreter {
     private variableNameRegExp = /['"()\n ]/
     private globals: Environment
+    // private rl = readline.createInterface({
+    //     input: process.stdin,
+    //     output: process.stdout,
+    // });
 
     constructor() {
         this.globals = new Environment(null, [], []) // the global environment doesn't have an enclosing environment, so its first parameter is null
@@ -13,6 +18,7 @@ export class Interpreter {
         this.globals.define("*", ((x: number, y: number) => x * y))
         this.globals.define("/", ((x: number, y: number) => x / y))
         this.globals.define("%", ((x: number, y: number) => x % y))
+        this.globals.define("read", (() => readlineSync.question("")))
         this.globals.define("expt", ((x: number, y: number) => Math.pow(x, y)))
         this.globals.define("print", ((x: number) => console.log(x)))
         this.globals.define("pi", Math.PI)
@@ -62,13 +68,13 @@ export class Interpreter {
                         throw new RuntimeError("Error: Function name must be a string")
                 }
                 else { // defines a variable
-                    if (typeof (expressions[1]) === "string" && !this.variableNameRegExp.test(expressions[1])){
+                    if (typeof (expressions[1]) === "string" && !this.variableNameRegExp.test(expressions[1])) {
                         let result = this.evaluate(expressions[2], environment)
                         if (result !== undefined)
                             environment.define(expressions[1], result)
                         else
                             throw new RuntimeError("Error: Cannot define a variable with an undefined value. Perhaps you are treating define as an expression.")
-                    }else
+                    } else
                         throw new RuntimeError("Error: Variable name must be a string")
                 }
 
@@ -88,11 +94,11 @@ export class Interpreter {
                 else {
                     try {
                         return (procedure as any)(...args)
-                    }catch (e) {
+                    } catch (e) {
                         console.log(expressions)
                         throw new RuntimeError("Error: Cannot call non-function")
                     }
-                    
+
                     // console.log("test2")
                 }
 
