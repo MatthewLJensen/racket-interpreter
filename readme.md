@@ -1,10 +1,10 @@
 # tRack - A simplified interpreter for the Racket programming language, built in Typescript.
 
-tRack is a monotype language, the only type being numbers.
+tRack is a monotype language, the only type being numbers. See this [overview](https://youtu.be/YzuICnYRTFw) video.
 ## Grammar
 
 ```
-Grammar	    ::=         def-expr*
+Grammar	::=         def-expr*
 
 def-expr 	::=         define | expr
 
@@ -12,16 +12,20 @@ define      ::=         "(" "define" "("variable variable*")" expr")"
             |           "(" "define" variable expr")"
 
 
-expr        ::=	        variable
-            |	        value
- 	        |	            "("variable expr*")"
- 	        |	            "(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
+expr        ::=	variable
+            |	value
+ 	|	"("variable expr*")"
+ 	|	"(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
 
 
 variable    ::=         [^'"()\n ]+
 
 value       ::=         [0-9]+('.'[0-9]+)?
 ```
+
+## REPL
+The REPL behaves like one would expect. It can be reached by running tRack without an argument. Define operations do not return a value, but all others should.
+
 
 ## Built-in Functions/Values
 ### Functions
