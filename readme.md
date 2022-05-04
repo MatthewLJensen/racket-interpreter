@@ -14,8 +14,8 @@ define      ::=         "(" "define" "("variable variable*")" expr")"
 
 expr        ::=	variable
             |	value
- 	|	"("variable expr*")"
- 	|	"(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
+ 	        |	"("variable expr*")"
+ 	        |	"(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
 
 
 variable    ::=         [^'"()\n ]+
@@ -148,6 +148,8 @@ _built_in_functions.track_
 (define e (* c z))
 (define f (equal? e y))
 (define g (equal? z x))
+(define h (% x w))
+(define i (expt w x))
 (print a)
 (print b)
 (print c)
@@ -155,6 +157,8 @@ _built_in_functions.track_
 (print e)
 (print f)
 (print g)
+(print h)
+(print i)
 ```
 Expected output:  
 _expected/built_in_functions_
@@ -166,6 +170,8 @@ _expected/built_in_functions_
 5
 0
 1
+1
+32
 ```
 
 ### Built-in Values
