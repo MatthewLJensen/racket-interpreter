@@ -4,7 +4,7 @@ tRack is a monotype language, the only type being numbers.
 ## Grammar
 
 ```
-Grammar	::=         def-expr*
+Grammar	    ::=         def-expr*
 
 def-expr 	::=         define | expr
 
@@ -12,10 +12,10 @@ define      ::=         "(" "define" "("variable variable*")" expr")"
             |           "(" "define" variable expr")"
 
 
-expr        ::=	variable
-            |	value
- 	    |	"("variable expr*")"
- 	    |	"(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
+expr        ::=	        variable
+            |	        value
+ 	        |	            "("variable expr*")"
+ 	        |	            "(" "cond" ("("expr expr")")+ ("(" "else" expr ")")? ")"
 
 
 variable    ::=         [^'"()\n ]+
