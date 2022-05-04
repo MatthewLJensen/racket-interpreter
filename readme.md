@@ -1,6 +1,6 @@
 # tRack - A simplified interpreter for the Racket programming language, built in Typescript.
 
-tRack is a monotype language, the only type being numbers. See this [overview](https://youtu.be/YzuICnYRTFw) video.
+tRack is a monotype language, the only type being numbers. See this [overview](https://youtu.be/kJVLR3KSdfw) video.
 ## Grammar
 
 ```
